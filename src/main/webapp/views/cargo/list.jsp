@@ -14,9 +14,10 @@
 <link
 	href="${resourcePath}css/plugins/dataTables/dataTables.tableTools.min.css"
 	rel="stylesheet">
-	
+
 <!-- Toastr style -->
-    <link href="${resourcePath}css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<link href="${resourcePath}css/plugins/toastr/toastr.min.css"
+	rel="stylesheet">
 
 <t:pageTemplate title="Colaboradores Cadastradas - Web Evaluation">
 
@@ -38,18 +39,18 @@
 								<th>Nome</th>
 								<th>Empresa</th>
 								<th>Status</th>
-								<th></th>
+								<th style="width: 7%; text-align: center;">Ação</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${lstCargo}" var="cargo">
-								<tr >
+								<tr>
 									<td>${cargo.nomeCargo}</td>
 									<td>${cargo.empresa.nomeFantasia}</td>
 									<td>${cargo.status.descricao}</td>
-									<td>
-										<a href="./edit.html?id=${cargo.id}" class="edit"></a>
-										<a href="#?id=${cargo.id}" class="delete"></a>
+									<td style="text-align: center; padding-left: 0; padding-right: 0; padding-bottom: 0;">
+										<a href="./edit.html?id=${cargo.id}" class="edit"></a> <a
+										href="#?id=${cargo.id}" class="delete"></a>
 									</td>
 								</tr>
 							</c:forEach>
@@ -98,7 +99,7 @@ button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
 	src="${resourcePath}js/plugins/dataTables/dataTables.responsive.js"></script>
 <script
 	src="${resourcePath}js/plugins/dataTables/dataTables.tableTools.min.js"></script>
-	
+
 <!-- Toastr script -->
 <script src="${resourcePath}js/plugins/toastr/toastr.min.js"></script>
 
@@ -139,5 +140,6 @@ button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
 	});
 	
 	document.getElementById("consulta").setAttribute("class", "active");
-	document.getElementById("listColaborador").setAttribute("class", "active");
+	document.getElementById("consultaCargo").setAttribute("class", "active");
+	document.getElementById("listCargo").setAttribute("class", "active");
 </script>

@@ -36,10 +36,10 @@
 						<thead>
 							<tr>
 								<th>Nome</th>
+								<th>Empresa</th>
 								<th>E-mail</th>
 								<th>Data de Nascimento</th>
 								<th>CPF</th>
-								<th>RG</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -47,10 +47,10 @@
 							<c:forEach items="${lstColaborador}" var="colaborador">
 								<tr >
 									<td>${colaborador.nome} ${colaborador.sobrenome}</td>
+									<td>${colaborador.cargo.empresa.nomeFantasia}</td>
 									<td>${colaborador.email}</td>
 									<td>${colaborador.dataNascimento}</td>
 									<td>${colaborador.cpf}</td>
-									<td>${colaborador.rg}</td>
 									<td>
 										<a href="./edit.html?id=${colaborador.id}" class="edit"></a>
 										<a href="#?id=${colaborador.id}" class="delete"></a>

@@ -29,7 +29,7 @@
     padding: 0;
     cursor: pointer;
     position: relative;
-    right: 7px;
+    /*right: 7px;*/
 }
 
 .delete{
@@ -42,7 +42,7 @@
     padding: 0;
     cursor: pointer;
     position: relative;
-    right: 7px;
+    /*right: 7px;*/
 }
 
 .edit:hover{
@@ -3494,14 +3494,14 @@ video {
 }
 #page-wrapper {
   padding: 0 15px;
-  min-height: 568px;
+  /*min-height: 568px;*/
   position: relative !important;
 }
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 240px;
-    min-height: 2002px;
+    /*min-height: 2002px;*/
   }
 }
 .title-action {
@@ -7358,7 +7358,7 @@ body.rtls.top-navigation .footer.fixed {
   .body-small.rtls #page-wrapper {
     position: inherit;
     margin: 0 0 0 0;
-    min-height: 1000px;
+    /*min-height: 1000px;*/
   }
   .body-small.rtls .navbar-static-side {
     display: none;
@@ -8165,7 +8165,7 @@ body.md-skin {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    min-height: 1200px;
+    min-height: 768px;
   }
   .navbar-static-side {
     z-index: 2001;
@@ -8182,7 +8182,7 @@ body.md-skin {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 0;
-    min-height: 1000px;
+    min-height: 800px;
   }
   .body-small .navbar-static-side {
     display: none;

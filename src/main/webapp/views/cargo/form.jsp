@@ -11,6 +11,12 @@
 <link href="${resourcePath}css/plugins/toastr/toastr.min.css" rel="stylesheet">
 <link href="${resourcePath}css/plugins/iCheck/custom.css" rel="stylesheet">
 
+<style>
+	.checkbox label::before {
+		display: none !important;
+	}
+</style>
+
 <t:pageTemplate title="Cadastrar Cargo - Web Evaluation">
 	<jsp:attribute name="extraJs">
       <t:js path="js/plugins/jasny/jasny-bootstrap.min.js"></t:js>
@@ -130,9 +136,31 @@
 									<div class="input-group">
 										<form:select path="habilidades" multiple="true"
 												cssClass="form-control chosen-select" cssErrorClass="form-control error" >
-											<c:forEach items="${lstHabilidade}" var="habilidade">
-												<form:option value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
-											</c:forEach>
+											<c:choose>
+												<c:when test="${cargo.id == null}">
+													<c:forEach items="${lstHabilidade}" var="habilidade">
+														<form:option value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
+													</c:forEach>
+												</c:when>
+												<c:otherwise>
+													<c:forEach items="${lstHabilidade}" var="habilidade">
+														<c:set var="isSelected" value="${false}" />
+														<c:forEach items="${cargo.habilidades}" var="cargoHabilidade">
+															<c:if test="${habilidade.id == cargoHabilidade.id}">
+																<c:set var="isSelected" value="${true}" />
+															</c:if>
+														</c:forEach>
+														<c:choose>
+															<c:when test="${isSelected}">
+																<form:option selected="selected" value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
+															</c:when>
+															<c:otherwise>
+																<form:option value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
 										</form:select>
 									</div>
 									<form:errors element="label" cssClass="error"

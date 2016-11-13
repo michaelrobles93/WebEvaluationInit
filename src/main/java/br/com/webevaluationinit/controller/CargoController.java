@@ -1,17 +1,17 @@
 package br.com.webevaluationinit.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +30,6 @@ import br.com.webevaluationinit.service.CboService;
 import br.com.webevaluationinit.service.EmpresaService;
 import br.com.webevaluationinit.service.FuncaoService;
 import br.com.webevaluationinit.service.HabilidadeService;
-import br.com.webevaluationinit.util.DatePropertyEditor;
 
 @Controller
 @RequestMapping("/cargo")
@@ -44,14 +43,37 @@ public class CargoController {
 	private int sucesso = -1;
 
 	@InitBinder
-	protected void initBinder(ServletRequestDataBinder binder) throws Exception {
-		//binder.setValidator(userValidator);
-		//binder.registerCustomEditor(Profile.class, new ProfilePropertyEditor(profileDao));
-		binder.registerCustomEditor(Date.class, new DatePropertyEditor(new SimpleDateFormat("dd/MM/yyyy")));
+	protected void initBinder(WebDataBinder binder) throws Exception {
+		binder.registerCustomEditor(List.class, "habilidades", new CustomCollectionEditor(List.class) {
+			protected Object convertElement(Object element) {
+				Long id = null;
+				if (element instanceof Habilidade) {
+					return element;
+				} else if (element instanceof String && !((String) element).equals("")) {
+					// From the JSP 'element' will be a String
+					try {
+						id = Long.parseLong((String) element);
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+				} else if (element instanceof Long) {
+					// From the database 'element' will be a Long
+					id = (Long) element;
+				}
+
+				return id != null ? habilidadeService.procurarPorId(id) : null;
+			}
+		});
+		// binder.setValidator(userValidator);
+		// binder.registerCustomEditor(Profile.class, new
+		// ProfilePropertyEditor(profileDao));
+		// binder.registerCustomEditor(Date.class, new DatePropertyEditor(new
+		// SimpleDateFormat("dd/MM/yyyy")));
 	}
 
 	@Autowired
-	public CargoController(CargoService cargoService, EmpresaService empresaService, CboService cboService, HabilidadeService habilidadeService, FuncaoService funcaoService) {
+	public CargoController(CargoService cargoService, EmpresaService empresaService, CboService cboService,
+			HabilidadeService habilidadeService, FuncaoService funcaoService) {
 		this.cargoService = cargoService;
 		this.empresaService = empresaService;
 		this.cboService = cboService;
@@ -61,12 +83,12 @@ public class CargoController {
 
 	@RequestMapping(value = "/form", method = RequestMethod.GET)
 	public ModelAndView form(Cargo cargo, Model model) {
-		
+
 		List<Empresa> lstEmpresa = empresaService.procurarTudo();
 		List<Cbo> lstCbo = cboService.procurarTudo();
 		List<Habilidade> lstHabilidade = habilidadeService.procurarTudo();
 		List<Funcao> lstFuncao = funcaoService.procurarTudo();
-		
+
 		model.addAttribute("lstEmpresa", lstEmpresa);
 		model.addAttribute("lstCbo", lstCbo);
 		model.addAttribute("lstHabilidade", lstHabilidade);
@@ -76,7 +98,7 @@ public class CargoController {
 		model.addAttribute("lstStatus", Status.values());
 		model.addAttribute("sucesso", this.sucesso);
 		this.sucesso = -1;
-		
+
 		return new ModelAndView("/cargo/form");
 	}
 
@@ -85,12 +107,22 @@ public class CargoController {
 		if (bindingResult.hasErrors()) {
 			form(cargo, model);
 		}
-		
+		if (cargo.getCargoSuperiorDireto().getId() == 0){
+			cargo.setCargoSuperiorDireto(null);
+		}
+		if (cargo.getCbo().getId() == 0){
+			cargo.setCbo(null);
+		}
+		if (cargo.getFuncao().getId() == 0){
+			cargo.setFuncao(null);
+		}
 		if (cargo.getId() != null) {
-			//cargoService.atualizar(cargo);
-			return form(cargo, model);
+			cargoService.atualizar(cargo);
+			this.sucesso = 1;
+			return list(model);
 		} else {
-			//cargoService.salvar(cargo);
+			cargoService.salvar(cargo);
+			this.sucesso = 1;
 			return form(new Cargo(), model);
 		}
 	}
@@ -110,6 +142,8 @@ public class CargoController {
 		List<Cargo> lstCargo = new ArrayList<Cargo>();
 		lstCargo = cargoService.procurarTudo();
 		model.addAttribute("lstCargo", lstCargo);
+		model.addAttribute("sucesso", this.sucesso);
+		this.sucesso = -1;
 		return new ModelAndView("/cargo/list");
 	}
 
