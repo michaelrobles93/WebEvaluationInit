@@ -169,7 +169,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Educacao</label> 
+									<label>Educação</label> 
 									<div class="input-group">
 										<form:select path="educacao" cssClass="form-control" 
 												cssErrorClass="form-control error" >

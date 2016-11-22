@@ -75,10 +75,10 @@
 	                        </li>
 						</ul>
 					</li>
-					<li><a href="#"><i class="fa fa-bar-chart-o"></i> <span
-							class="nav-label">Relatórios</span><span class="fa arrow"></span></a>
+					<li id="relatorio"><a href="#"><i class="fa fa-bar-chart-o"></i>
+						<span class="nav-label">Relatórios</span><span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level collapse">
-							<li><a href="#">teste</a></li>
+							<li id="formRelatorio"><a href="${pageContext.request.contextPath}/relatorio/form.html">Relatório</a></li>
 							<!--<li><a href="graph_flot.html">Flot Charts</a></li>
 							<li><a href="graph_morris.html">Morris.js Charts</a></li>
 							<li><a href="graph_rickshaw.html">Rickshaw Charts</a></li>

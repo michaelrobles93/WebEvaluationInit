@@ -10,6 +10,10 @@
 <!-- Toastr style -->
 <link href="${resourcePath}css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
+<style>
+	input{ background-color: #000;}
+</style>
+
 <t:pageTemplate title="Cadastrar Colaborador - Web Evaluation">
 	<jsp:attribute name="extraJs">
       <t:js path="js/plugins/jasny/jasny-bootstrap.min.js"></t:js>
@@ -25,7 +29,7 @@
 				<form:form action="${s:mvcUrl('CC#novo').build()}.html"
 						commandName="colaborador" role="form">
 					<div class="ibox-title">
-						<h5>Cadastro de Colaborador</h5>
+						<h5>Visualizar dados do Colaborador</h5>
 					</div>
 					<div class="ibox-content">
 						<form:hidden path="id" />
@@ -296,13 +300,6 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<button class="btn btn-primary pull-right" type="submit">
-									<strong>Cadastrar</strong>
-								</button>
-							</div>
-						</div>
 					</div>
 				</form:form>
 			</div>
@@ -316,111 +313,3 @@
 	
 <!-- Toastr script -->
 <script src="${resourcePath}js/plugins/toastr/toastr.min.js"></script>
-
-<script>
-	
-	document.getElementById("cadastro").setAttribute("class", "active");
-	document.getElementById("formColaborador").setAttribute("class", "active");
-	
-	$('#empresa').on('change',function(){
-		var data = {}
-		data["id"] = $("#empresa").val();
-		$('#cargo').
-		html('<option value="">Selecione uma opção</option>');
-		$('#colaboradorSuperiorImediato').
-		html('<option value="">Selecione uma opção</option>');
-		$.ajax({
-			type: "POST",
-			url : "/WebEvaluationInit/ajax/searchingCargos.html",
-			data : JSON.stringify(data),
-			contentType: "application/json",
-            dataType: "json",
-			success : function(data) {
-				console.log("SUCCESS: ", data);
-				$.each(data, function(i, item) {
-					$('#cargo').
-						append('<option value="'+item.id+'">'+item.nomeCargo+'</option>');
-				});
-			},
-			error : function(e) {
-				console.log("ERROR: ", e);
-			},
-			done : function(e) {
-				console.log("DONE");
-			}
-		});
-	});
-	
-	$('#cargo').on('change',function(){
-		var data = {}
-		data["id"] = $("#cargo").val();
-		$('#colaboradorSuperiorImediato').
-		html('<option value="">Selecione uma opção</option>');
-		$.ajax({
-			type: "POST",
-			url : "/WebEvaluationInit/ajax/searchingColaboradores.html",
-			data : JSON.stringify(data),
-			contentType: "application/json",
-            dataType: "json",
-			success : function(data) {
-				console.log("SUCCESS: ", data);
-				$.each(data, function(i, item) {
-					$('#colaboradorSuperiorImediato').
-						append('<option value="'+item.id+'">'+item.nome+'</option>');
-				});
-			},
-			error : function(e) {
-				console.log("ERROR: ", e);
-			},
-			done : function(e) {
-				console.log("DONE");
-			}
-		});
-	});
-	
-	$(document).ready(function() {
-		
-		var msgSucesso = "Os dados do colaborador foram cadastrados!";
-		var msgErro = "Houve um erro ao cadastrar os dados da colaborador!";
-	
-		toastr.options = {
-		  "closeButton": true,
-		  "debug": false,
-		  "progressBar": false,
-		  "positionClass": "toast-top-full-width",
-		  "onclick": null,
-		  "showDuration": "200",
-		  "hideDuration": "1000",
-		  "timeOut": "7000",
-		  "extendedTimeOut": "1000",
-		  "showEasing": "swing",
-		  "hideEasing": "linear",
-		  "showMethod": "fadeIn",
-		  "hideMethod": "fadeOut"
-		}
-		
-		 var config = {
-		         '.chosen-select'           : {},
-		         '.chosen-select-deselect'  : {allow_single_deselect:true},
-		         '.chosen-select-no-single' : {disable_search_threshold:10},
-		         '.chosen-select-no-results': {no_results_text:'Oops, Nada encontrado!'},
-		         '.chosen-select-width'     : {width:"95%"}
-		     }
-		     for (var selector in config) {
-		         $(selector).chosen(config[selector]);
-		     }
-		
-		if (${sucesso} == 1){
-			toastr.success(msgSucesso, 'Sucesso');	
-		}else{
-			if (${sucesso} == 0){
-				toastr.error(msgErro,'Erro');
-			}
-		}
-	});
-	
-	function carregaComboCargo(){
-		alert('aaa');
-	}
-
-</script>

@@ -29,6 +29,9 @@ public class ColaboradorService {
 		return colaboradorDAO.procurarTudo();
 	}
 	
+	public List<Colaborador> procurarRelatorio(Colaborador colaborador){
+		return colaboradorDAO.procurarRelatorio(colaborador);
+	}	
 	
 	public Colaborador procurarPorId(Long id){
 		return colaboradorDAO.procurarPorId(id);

@@ -156,6 +156,21 @@ public class ColaboradorController {
 		return new ModelAndView("/colaborador/list");
 	}
 	
+	@RequestMapping(value = "/list2", method = RequestMethod.POST)
+	public ModelAndView list2(@Valid Colaborador colaborador, Model model, BindingResult bindingResult) {
+		System.out.println("aaa");
+		if (bindingResult.hasErrors()) {
+			System.out.println("bbb");
+			return new ModelAndView("/relatorio/form");
+			
+		}
+		System.out.println("ccc");
+		List<Colaborador> lstColaborador = new ArrayList<Colaborador>();
+		lstColaborador = colaboradorService.procurarRelatorio(colaborador);
+		model.addAttribute("lstColaborador", lstColaborador);
+		return new ModelAndView("/relatorio/list2");
+	}
+	
 	public List<Telefone> insereTelefones(List<Telefone> lstTelefone){
 		if (lstTelefone.get(2).getNumero().trim().equals("")){
 			lstTelefone.remove(lstTelefone.get(2));
