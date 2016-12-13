@@ -48,7 +48,7 @@
 								<tr>
 								<form:select path="cargo.empresa.id" id="empresa"
 										cssClass="form-control chosen-select" cssErrorClass="form-control error" >
-									<form:option value="0" label="Selecione uma opção" />
+									<form:option value="0" label="Todas" />
 									<c:forEach items="${lstEmpresa}" var="empresa">
 										<form:option value="${empresa.id}" label="${empresa.razaoSocial}" />
 									</c:forEach>
@@ -97,7 +97,7 @@
 										</tr>
 										<tr>
 									</c:if>
-						 			<td><label><form:checkbox path="cargo.educacao" value="${educacao}" checked="" /> ${educacao.descricao}</label></td>
+						 			<td><label><form:checkbox path="cargo.listEducacao" value="${educacao}" checked="" /> ${educacao.descricao}</label></td>
 						 			<c:set var="i" value="${i+1}"/>
 					 			</c:forEach>
 					 			</tr>

@@ -49,7 +49,7 @@ public class RelatorioController {
 
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) throws Exception {
-		binder.registerCustomEditor(List.class, "habilidades", new CustomCollectionEditor(List.class) {
+		binder.registerCustomEditor(List.class, "cargo.habilidades", new CustomCollectionEditor(List.class) {
 			protected Object convertElement(Object element) {
 				Long id = null;
 				if (element instanceof Habilidade) {
@@ -67,6 +67,25 @@ public class RelatorioController {
 				}
 
 				return id != null ? habilidadeService.procurarPorId(id) : null;
+			}
+		});
+		binder.registerCustomEditor(List.class, "cargo.listEducacao", new CustomCollectionEditor(List.class) {
+			protected Object convertElement(Object element) {
+				Long id = null;
+				if (element instanceof Habilidade) {
+					return element;
+				} else if (element instanceof String && !((String) element).equals("")) {
+					// From the JSP 'element' will be a String
+					try {
+						id = Long.parseLong((String) element);
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+				} else if (element instanceof Long) {
+					// From the database 'element' will be a Long
+					id = (Long) element;
+				}
+				return id != null ? id : null;
 			}
 		});
 		// binder.setValidator(userValidator);
