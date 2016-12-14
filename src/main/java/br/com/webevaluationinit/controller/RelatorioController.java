@@ -27,6 +27,7 @@ import br.com.webevaluationinit.model.EstadoCivil;
 import br.com.webevaluationinit.model.Funcao;
 import br.com.webevaluationinit.model.Genero;
 import br.com.webevaluationinit.model.Habilidade;
+import br.com.webevaluationinit.model.Relatorio;
 import br.com.webevaluationinit.model.Status;
 import br.com.webevaluationinit.service.CargoService;
 import br.com.webevaluationinit.service.CboService;
@@ -39,6 +40,7 @@ import br.com.webevaluationinit.service.HabilidadeService;
 @RequestMapping("/relatorio")
 public class RelatorioController {
 	
+	private Relatorio relatorio;
 	private ColaboradorService colaboradorService;
 	private CargoService cargoService;
 	private EmpresaService empresaService;
@@ -49,7 +51,7 @@ public class RelatorioController {
 
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) throws Exception {
-		binder.registerCustomEditor(List.class, "cargo.habilidades", new CustomCollectionEditor(List.class) {
+		binder.registerCustomEditor(List.class, "lstHabilidade", new CustomCollectionEditor(List.class) {
 			protected Object convertElement(Object element) {
 				Long id = null;
 				if (element instanceof Habilidade) {
@@ -113,7 +115,7 @@ public class RelatorioController {
 		List<Cbo> lstCbo = cboService.procurarTudo();
 		List<Habilidade> lstHabilidade = habilidadeService.procurarTudo();
 		List<Funcao> lstFuncao = funcaoService.procurarTudo();
-		Colaborador colaborador = new Colaborador();
+		Relatorio relatorio = new Relatorio();
 
 		model.addAttribute("lstEmpresa", lstEmpresa);
 		model.addAttribute("lstCbo", lstCbo);
@@ -122,7 +124,7 @@ public class RelatorioController {
 		model.addAttribute("lstEducacao", Educacao.values());
 		model.addAttribute("lstGenero", Genero.values());
 		model.addAttribute("lstStatus", Status.values());
-		model.addAttribute("colaborador", colaborador);
+		model.addAttribute("relatorio", relatorio);
 		model.addAttribute("i", 0);
 		model.addAttribute("sucesso", this.sucesso);
 		this.sucesso = -1;
@@ -192,9 +194,9 @@ public class RelatorioController {
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ModelAndView list(@Valid Colaborador colaborador, BindingResult bindingResult, Model model) {
+	public ModelAndView list(@Valid Relatorio relatorio, BindingResult bindingResult, Model model) {
 		List<Colaborador> lstColaborador = new ArrayList<Colaborador>();
-		lstColaborador = colaboradorService.procurarRelatorio(colaborador);
+		lstColaborador = colaboradorService.procurarRelatorio(relatorio);
 		model.addAttribute("lstColaborador", lstColaborador);
 		return new ModelAndView("/relatorio/list");
 	}

@@ -166,7 +166,7 @@ public class ColaboradorController {
 		}
 		System.out.println("ccc");
 		List<Colaborador> lstColaborador = new ArrayList<Colaborador>();
-		lstColaborador = colaboradorService.procurarRelatorio(colaborador);
+		//lstColaborador = colaboradorService.procurarRelatorio(colaborador);
 		model.addAttribute("lstColaborador", lstColaborador);
 		return new ModelAndView("/relatorio/list2");
 	}

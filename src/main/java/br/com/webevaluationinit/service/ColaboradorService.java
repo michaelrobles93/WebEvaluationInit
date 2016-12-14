@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.webevaluationinit.dao.ColaboradorDAO;
 import br.com.webevaluationinit.model.Colaborador;
 import br.com.webevaluationinit.model.EstadoCivil;
+import br.com.webevaluationinit.model.Relatorio;
 
 @Service
 @Transactional
@@ -29,8 +30,8 @@ public class ColaboradorService {
 		return colaboradorDAO.procurarTudo();
 	}
 	
-	public List<Colaborador> procurarRelatorio(Colaborador colaborador){
-		return colaboradorDAO.procurarRelatorio(colaborador);
+	public List<Colaborador> procurarRelatorio(Relatorio relatorio){
+		return colaboradorDAO.procurarRelatorio(relatorio);
 	}	
 	
 	public Colaborador procurarPorId(Long id){

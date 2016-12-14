@@ -32,7 +32,7 @@
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<form:form action="list.html"
-						modelAttribute="colaborador" role="form">
+						modelAttribute="relatorio" role="form">
 					<div class="ibox-title">
 						<h5>Relatório</h5>
 					</div>
@@ -46,7 +46,7 @@
 							<table>
 							<tbody>
 								<tr>
-								<form:select path="cargo.empresa.id" id="empresa"
+								<form:select path="empresa.id" id="empresa"
 										cssClass="form-control chosen-select" cssErrorClass="form-control error" >
 									<form:option value="0" label="Todas" />
 									<c:forEach items="${lstEmpresa}" var="empresa">
@@ -73,7 +73,7 @@
 										</tr>
 										<tr>
 									</c:if>
-						 			<td><label><form:checkbox path="cargo.habilidades" value="${habilidade.id}" checked="" /> ${habilidade.nomeHabilidade}</label></td>
+						 			<td><label><form:checkbox path="lstHabilidade" value="${habilidade.id}" checked="" /> ${habilidade.nomeHabilidade}</label></td>
 						 			<c:set var="i" value="${i+1}"/>
 						 		</c:forEach>
 						 		</tr>
@@ -97,7 +97,7 @@
 										</tr>
 										<tr>
 									</c:if>
-						 			<td><label><form:checkbox path="cargo.listEducacao" value="${educacao}" checked="" /> ${educacao.descricao}</label></td>
+						 			<td><label><form:checkbox path="lstEducacao" value="${educacao}" checked="" /> ${educacao.descricao}</label></td>
 						 			<c:set var="i" value="${i+1}"/>
 					 			</c:forEach>
 					 			</tr>
@@ -121,7 +121,7 @@
 										</tr>
 										<tr>
 									</c:if>
-						 			<td><label><form:checkbox path="cargo.funcao" value="${funcao.id}" checked="" /> ${funcao.descricao}</label></td>
+						 			<td><label><form:checkbox path="lstFuncao" value="${funcao.id}" checked="" /> ${funcao.descricao}</label></td>
 						 			<c:set var="i" value="${i+1}"/>
 					 			</c:forEach>
 					 			</tr>
@@ -145,7 +145,7 @@
 										</tr>
 										<tr>
 									</c:if>
-						 			<td><label><form:checkbox path="genero" value="${genero}" checked="" /> ${genero.descricao}</label></td>
+						 			<td><label><form:checkbox path="lstGenero" value="${genero}" checked="" /> ${genero.descricao}</label></td>
 						 			<c:set var="i" value="${i+1}"/>
 					 			</c:forEach>
 					 			</tr>

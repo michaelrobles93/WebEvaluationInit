@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.webevaluationinit.model.Colaborador;
 import br.com.webevaluationinit.model.Habilidade;
+import br.com.webevaluationinit.model.Relatorio;
 
 @Repository
 public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> implements ColaboradorDAO {
@@ -20,33 +21,33 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Colaborador> procurarRelatorio(Colaborador colaborador) {
+	public List<Colaborador> procurarRelatorio(Relatorio relatorio) {
 		TypedQuery<Colaborador> query = null;
 		String criteria = "";
 		String table = "";
 		int countCriteria = 0;
-		if (colaborador.getCargo().getEmpresa().getId() != 0) {
+		if (relatorio.getEmpresa().getId() != 0) {
 			String cargoTable = "Cargo";
 			String empresaTable = "Empresa";
 			String colaboradorTable = "Colaborador";
 			table = table + colaboradorTable + " e JOIN " + cargoTable + " car ON (e.id_cargo = car.id) JOIN "
 					+ empresaTable + " emp ON (car.id_empresa = emp.id) ";
-			criteria = criteria + " emp.id = " + colaborador.getCargo().getEmpresa().getId();
+			criteria = criteria + " emp.id = " + relatorio.getEmpresa().getId();
 			countCriteria++;
 
 		}
-		if (colaborador.getCargo().getHabilidades() != null) {
+		if (relatorio.getLstHabilidade() != null) {
 			String cargoTable = "Cargo";
 			String cargoHabilidadeTable = "Cargo_Habilidade";
 			String colaboradorTable = "Colaborador";
 			String idsHabilidade = "";
-			if (colaborador.getCargo().getEmpresa().getId() != 0) {
+			if (relatorio.getEmpresa().getId() != 0) {
 				table = table + " JOIN " + cargoHabilidadeTable + " cha ON (car.id = cha.cargo_id) ";
 			} else {
 				table = table + colaboradorTable + " e JOIN " + cargoTable + " car ON (e.id_cargo = car.id) JOIN "
 						+ cargoHabilidadeTable + " cha ON (car.id = cha.cargo_id) ";
 			}
-			for (Habilidade habilidade : colaborador.getCargo().getHabilidades()) {
+			for (Habilidade habilidade : relatorio.getLstHabilidade()) {
 				if (idsHabilidade.equals("")) {
 					idsHabilidade = habilidade.getId().toString();
 				} else {
