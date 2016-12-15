@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import br.com.webevaluationinit.model.Colaborador;
+import br.com.webevaluationinit.model.Educacao;
 import br.com.webevaluationinit.model.Habilidade;
 import br.com.webevaluationinit.model.Relatorio;
 
@@ -36,6 +37,7 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 			countCriteria++;
 
 		}
+		
 		if (relatorio.getLstHabilidade() != null) {
 			String cargoTable = "Cargo";
 			String cargoHabilidadeTable = "Cargo_Habilidade";
@@ -58,6 +60,29 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 				criteria = criteria + " AND cha.habilidades_id IN (" + idsHabilidade + ")";
 			}else{
 				criteria = "cha.habilidades_id IN (" + idsHabilidade + ")";
+			}
+		}
+		
+		if (relatorio.getLstEducacao() != null) {
+			String cargoTable = "Cargo";
+			String colaboradorTable = "Colaborador";
+			String idsEducacao = "";
+			if (relatorio.getEmpresa().getId() == 0 && relatorio.getLstHabilidade() == null) {
+				table = table + colaboradorTable + " e JOIN " + cargoTable + " car ON (e.id_cargo = car.id) ";
+			}else{
+				table = table + " JOIN " + cargoTable + " car ON (e.id_cargo = car.id) ";
+			}
+			for (Educacao educacao : relatorio.getLstEducacao()) {
+				if (idsEducacao.equals("")) {
+					idsEducacao = educacao.getValue() + "";
+				} else {
+					idsEducacao = idsEducacao + ", " + educacao.getValue();
+				}
+			}
+			if (countCriteria > 0) {
+				criteria = criteria + " AND car.educacao IN (" + idsEducacao + ")";
+			}else{
+				criteria = "car.educacao IN (" + idsEducacao + ")";
 			}
 		}
 

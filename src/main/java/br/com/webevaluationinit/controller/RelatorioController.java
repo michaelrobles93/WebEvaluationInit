@@ -71,23 +71,24 @@ public class RelatorioController {
 				return id != null ? habilidadeService.procurarPorId(id) : null;
 			}
 		});
-		binder.registerCustomEditor(List.class, "cargo.listEducacao", new CustomCollectionEditor(List.class) {
+		binder.registerCustomEditor(List.class, "lstEducacao", new CustomCollectionEditor(List.class) {
 			protected Object convertElement(Object element) {
-				Long id = null;
-				if (element instanceof Habilidade) {
+				int id = 1000;
+				if (element instanceof Educacao) {
 					return element;
 				} else if (element instanceof String && !((String) element).equals("")) {
 					// From the JSP 'element' will be a String
+					System.out.println(element);
 					try {
-						id = Long.parseLong((String) element);
+						id = Integer.parseInt((String) element);
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
 				} else if (element instanceof Long) {
 					// From the database 'element' will be a Long
-					id = (Long) element;
+					id = (int) element;
 				}
-				return id != null ? id : null;
+				return id != 1000 ? Educacao.values()[id] : null;
 			}
 		});
 		// binder.setValidator(userValidator);
