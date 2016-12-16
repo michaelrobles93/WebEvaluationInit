@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import br.com.webevaluationinit.model.Colaborador;
 import br.com.webevaluationinit.model.Educacao;
+import br.com.webevaluationinit.model.Funcao;
+import br.com.webevaluationinit.model.Genero;
 import br.com.webevaluationinit.model.Habilidade;
 import br.com.webevaluationinit.model.Relatorio;
 
@@ -43,24 +45,25 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 			String cargoHabilidadeTable = "Cargo_Habilidade";
 			String colaboradorTable = "Colaborador";
 			String idsHabilidade = "";
-			if (relatorio.getEmpresa().getId() != 0) {
-				table = table + " JOIN " + cargoHabilidadeTable + " cha ON (car.id = cha.cargo_id) ";
-			} else {
+			if (relatorio.getEmpresa().getId() == 0) {
 				table = table + colaboradorTable + " e JOIN " + cargoTable + " car ON (e.id_cargo = car.id) JOIN "
 						+ cargoHabilidadeTable + " cha ON (car.id = cha.cargo_id) ";
+			} else {
+				table = table + " JOIN " + cargoHabilidadeTable + " cha ON (car.id = cha.cargo_id) ";
 			}
 			for (Habilidade habilidade : relatorio.getLstHabilidade()) {
 				if (idsHabilidade.equals("")) {
 					idsHabilidade = habilidade.getId().toString();
 				} else {
-					idsHabilidade = idsHabilidade + ", " + habilidade.getId().toString();
+					idsHabilidade = idsHabilidade + "," + habilidade.getId().toString();
 				}
 			}
 			if (countCriteria > 0) {
-				criteria = criteria + " AND cha.habilidades_id IN (" + idsHabilidade + ")";
+				criteria = criteria + " AND cha.habilidades_id = ALL (SELECT habilidades_id FROM " + cargoHabilidadeTable + " WHERE cha.habilidades_id IN (" + idsHabilidade + "))";
 			}else{
-				criteria = "cha.habilidades_id IN (" + idsHabilidade + ")";
+				criteria = " AND cha.habilidades_id = ALL (SELECT habilidades_id FROM " + cargoHabilidadeTable + " WHERE cha.habilidades_id IN (" + idsHabilidade + "))";
 			}
+			countCriteria++;
 		}
 		
 		if (relatorio.getLstEducacao() != null) {
@@ -69,8 +72,6 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 			String idsEducacao = "";
 			if (relatorio.getEmpresa().getId() == 0 && relatorio.getLstHabilidade() == null) {
 				table = table + colaboradorTable + " e JOIN " + cargoTable + " car ON (e.id_cargo = car.id) ";
-			}else{
-				table = table + " JOIN " + cargoTable + " car ON (e.id_cargo = car.id) ";
 			}
 			for (Educacao educacao : relatorio.getLstEducacao()) {
 				if (idsEducacao.equals("")) {
@@ -85,13 +86,51 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 				criteria = "car.educacao IN (" + idsEducacao + ")";
 			}
 		}
+		
+		if (relatorio.getLstFuncao() != null) {
+			String cargoTable = "Cargo";
+			String colaboradorTable = "Colaborador";
+			String idsFuncao = "";
+			if (relatorio.getEmpresa().getId() == 0 && relatorio.getLstHabilidade() == null && relatorio.getLstEducacao() == null) {
+				table = table + colaboradorTable + " e JOIN " + cargoTable + " car ON (e.id_cargo = car.id) ";
+			}
+			for (Funcao funcao: relatorio.getLstFuncao()) {
+				if (idsFuncao.equals("")) {
+					idsFuncao = funcao.getId().toString();
+				} else {
+					idsFuncao = idsFuncao + ", " + funcao.getId().toString();
+				}
+			}
+			if (countCriteria > 0) {
+				criteria = criteria + " AND car.id_funcao IN (" + idsFuncao + ")";
+			}else{
+				criteria = "car.id_funcao IN (" + idsFuncao + ")";
+			}
+			countCriteria++;
+		}
+		
+		if (relatorio.getLstGenero() != null) {
+			String idsGenero = "";
+			for (Genero genero : relatorio.getLstGenero()) {
+				if (idsGenero.equals("")) {
+					idsGenero = genero.getValue() + "";
+				} else {
+					idsGenero = idsGenero + ", " + genero.getValue();
+				}
+			}
+			if (countCriteria > 0) {
+				criteria = criteria + " AND e.genero IN (" + idsGenero + ")";
+			}else{
+				criteria = "e.genero IN (" + idsGenero + ")";
+			}
+		}
 
 		if (criteria.equals("") || table.equals("")) {
-			System.out.println("SELECT e FROM " + entityClass.getName() + " e");
-			query = em.createQuery("SELECT e FROM " + entityClass.getName() + " e", entityClass);
+			System.out.println("SELECT DISTINCT(e) FROM " + entityClass.getName() + " e");
+			query = em.createQuery("SELECT DISTINCT(e) FROM " + entityClass.getName() + " e", entityClass);
 		} else {
-			System.out.println("SELECT e FROM " + table + " WHERE " + criteria);
-			query = (TypedQuery<Colaborador>) em.createNativeQuery("SELECT e.* FROM " + table + " WHERE " + criteria,
+			System.out.println("SELECT DISTINCT(e.id) AS \"e.id\", e.* FROM " + table + " WHERE " + criteria);
+			query = (TypedQuery<Colaborador>) em.createNativeQuery("SELECT DISTINCT(e.id) AS \"e.id\", e.* FROM " + table + " WHERE " + criteria,
 					entityClass);
 		}
 		return (List<Colaborador>) query.getResultList();

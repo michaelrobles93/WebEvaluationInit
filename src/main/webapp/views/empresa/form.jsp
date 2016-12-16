@@ -198,6 +198,9 @@
 			toastr.success(msgSucesso, 'Sucesso');	
 		}else{
 			if (${sucesso} == 0){
+				if(${msgErro} == 1){
+					msgErro = msgErro + " (CNPJ já cadastrado no sistema)";
+				}
 				toastr.error(msgErro,'Erro');
 			}
 		}	

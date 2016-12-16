@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="admissao")
@@ -27,6 +28,7 @@ public class Admissao {
 	private Empresa empresa;
 	
 	@Temporal(TemporalType.DATE)
+	@NotNull (message = "{admissao.dataAdmissao.nulo)")
 	@Column(name = "data_admissao")
 	private Date dataAdmissao;
 	

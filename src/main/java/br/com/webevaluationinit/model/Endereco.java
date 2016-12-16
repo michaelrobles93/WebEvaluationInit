@@ -1,6 +1,9 @@
 package br.com.webevaluationinit.model;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Embeddable
 public class Endereco {
@@ -9,7 +12,11 @@ public class Endereco {
 	private String cep;
 	private String logradouro;
 	private String bairro;
+	
+	@NotNull(message="{endereco.cidade.nulo)")
+	@NotEmpty
 	private String cidade;
+	
 	private String uf;
 	private String numero;
 	private String complemento;

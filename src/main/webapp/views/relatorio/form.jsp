@@ -145,7 +145,7 @@
 										</tr>
 										<tr>
 									</c:if>
-						 			<td><label><form:checkbox path="lstGenero" value="${genero}" checked="" /> ${genero.descricao}</label></td>
+						 			<td><label><form:checkbox path="lstGenero" value="${genero.value}" checked="" /> ${genero.descricao}</label></td>
 						 			<c:set var="i" value="${i+1}"/>
 					 			</c:forEach>
 					 			</tr>

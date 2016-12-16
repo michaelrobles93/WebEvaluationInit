@@ -28,7 +28,6 @@ public class FuncaoService {
 		return funcaoDAO.procurarTudo();
 	}
 	
-	
 	public Funcao procurarPorId(Long id){
 		return funcaoDAO.procurarPorId(id);
 	}

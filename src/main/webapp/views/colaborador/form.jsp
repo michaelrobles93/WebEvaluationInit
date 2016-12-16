@@ -140,7 +140,7 @@
 									<label>Estado Civil</label> 
 									<form:select path="estadoCivil"
 											cssClass="form-control" cssErrorClass="form-control error" >
-										<form:option value="0" label="Selecione uma opção" />
+										<form:option value="" label="Selecione uma opção" />
 										<c:forEach items="${estadoCivil}" var="estado">
 											<form:option value="${estado}" label="${estado.descricao}" />
 										</c:forEach>
@@ -155,7 +155,7 @@
 									<label>Gênero</label> 
 									<form:select path="genero"
 											cssClass="form-control" cssErrorClass="form-control error" >
-										<form:option value="0" label="Selecione uma opção" />
+										<form:option value="" label="Selecione uma opção" />
 										<c:forEach items="${generos}" var="genero">
 											<form:option value="${genero}" label="${genero.descricao}" />
 										</c:forEach>

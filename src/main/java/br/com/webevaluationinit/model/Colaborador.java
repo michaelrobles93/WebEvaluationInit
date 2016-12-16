@@ -37,6 +37,7 @@ public class Colaborador {
 	private String nome;
 	
 	@NotNull(message="{colaborador.sobrenome.nulo)")
+	@NotEmpty
 	@Column(nullable=false)
 	private String sobrenome;
 	
@@ -54,6 +55,7 @@ public class Colaborador {
 	private Date dataNascimento;
 	
 	@NotNull(message="{colaborador.email.nulo)")
+	@NotEmpty
 	@Column(nullable=false)
 	private String email;
 	
@@ -67,14 +69,17 @@ public class Colaborador {
 	private EstadoCivil estadoCivil;
 	
 	@NotNull(message="{colaborador.rg.nulo)")
+	@NotEmpty
 	@Column(nullable=false)
 	private String rg;
 	
 	@NotNull(message="{colaborador.cpf.nulo)")
+	@NotEmpty
 	@Column(nullable=false)
 	private String cpf;
 	
 	@NotNull(message="{colaborador.ctps.nulo)")
+	@NotEmpty
 	@Column(nullable=false)
 	private String ctps;
 	
@@ -85,6 +90,8 @@ public class Colaborador {
 	private List<Endereco> enderecos;
 	
 	@JsonIgnore
+	@NotNull (message = "{admissao.dataAdmissao.nulo)")
+	@NotEmpty
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="colaborador")
 	private List<Admissao> admissoes;
 	

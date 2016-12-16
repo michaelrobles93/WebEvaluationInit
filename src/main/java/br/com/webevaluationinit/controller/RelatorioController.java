@@ -51,6 +51,7 @@ public class RelatorioController {
 
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) throws Exception {
+		
 		binder.registerCustomEditor(List.class, "lstHabilidade", new CustomCollectionEditor(List.class) {
 			protected Object convertElement(Object element) {
 				Long id = null;
@@ -71,10 +72,52 @@ public class RelatorioController {
 				return id != null ? habilidadeService.procurarPorId(id) : null;
 			}
 		});
+		
 		binder.registerCustomEditor(List.class, "lstEducacao", new CustomCollectionEditor(List.class) {
 			protected Object convertElement(Object element) {
 				int id = 1000;
 				if (element instanceof Educacao) {
+					return element;
+				} else if (element instanceof String && !((String) element).equals("")) {
+					// From the JSP 'element' will be a String
+					try {
+						id = Integer.parseInt((String) element);
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+				} else if (element instanceof Long) {
+					// From the database 'element' will be a Long
+					id = (int) element;
+				}
+				return id != 1000 ? Educacao.values()[id] : null;
+			}
+		});
+		
+		binder.registerCustomEditor(List.class, "lstFuncao", new CustomCollectionEditor(List.class) {
+			protected Object convertElement(Object element) {
+				Long id = null;
+				if (element instanceof Funcao) {
+					return element;
+				} else if (element instanceof String && !((String) element).equals("")) {
+					// From the JSP 'element' will be a String
+					try {
+						id = Long.parseLong((String) element);
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+				} else if (element instanceof Long) {
+					// From the database 'element' will be a Long
+					id = (Long) element;
+				}
+
+				return id != null ? funcaoService.procurarPorId(id) : null;
+			}
+		});
+		
+		binder.registerCustomEditor(List.class, "lstGenero", new CustomCollectionEditor(List.class) {
+			protected Object convertElement(Object element) {
+				int id = 1000;
+				if (element instanceof Genero) {
 					return element;
 				} else if (element instanceof String && !((String) element).equals("")) {
 					// From the JSP 'element' will be a String
@@ -88,7 +131,7 @@ public class RelatorioController {
 					// From the database 'element' will be a Long
 					id = (int) element;
 				}
-				return id != 1000 ? Educacao.values()[id] : null;
+				return id != 1000 ? Genero.values()[id] : null;
 			}
 		});
 		// binder.setValidator(userValidator);

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="habilidade")
 public class Habilidade {
@@ -16,9 +18,12 @@ public class Habilidade {
 	private Long id;
 	
 	@NotNull(message="{habilidade.nomeHabilidade.nulo)")
+	@NotEmpty
 	@Column(name="nome_habilidade", nullable = false)
 	private String nomeHabilidade;
 	
+	@NotNull(message="{habilidade.descricao.nulo)")
+	@NotEmpty
 	@Column(name="descricao")
 	private String descricao;
 
