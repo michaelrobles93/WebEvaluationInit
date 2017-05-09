@@ -11,6 +11,12 @@
 <link href="${resourcePath}css/plugins/toastr/toastr.min.css" rel="stylesheet">
 <link href="${resourcePath}css/plugins/iCheck/custom.css" rel="stylesheet">
 
+<style>
+	.checkbox label::before {
+		display: none !important;
+	}
+</style>
+
 <t:pageTemplate title="Cadastrar Cargo - Web Evaluation">
 	<jsp:attribute name="extraJs">
       <t:js path="js/plugins/jasny/jasny-bootstrap.min.js"></t:js>
@@ -47,23 +53,39 @@
 								<div class="form-group">
 									<label>CBO</label>
 									<div class="input-group">
-										<form:select path="cbo"
+										<form:select path="cbo.id"
 												cssClass="form-control chosen-select" cssErrorClass="form-control error" >
 											<form:option value="0" label="Selecione uma opção" />
 											<c:forEach items="${lstCbo}" var="cbo">
 												<form:option value="${cbo.id}" label="${cbo.id} - ${cbo.nomeCargo}" />
 											</c:forEach>
 										</form:select>
-										<form:errors element="label" cssClass="error" path="cbo" />
+										<form:errors element="label" cssClass="error" path="cbo.id" />
 									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
+									<label>Empresa</label> 
+									<form:select path="empresa.id" id="empresa"
+											cssClass="form-control chosen-select" cssErrorClass="form-control error" >
+										<form:option value="0" label="Selecione uma opção" />
+										<c:forEach items="${lstEmpresa}" var="empresa">
+											<form:option value="${empresa.id}" label="${empresa.razaoSocial}" />
+										</c:forEach>
+									</form:select>
+									<form:errors element="label" cssClass="error"
+											path="empresa.id" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
 									<label>Cargo Superior Direto</label> 
 									<div class="input-group">
-										<form:select path="cargoSuperiorDireto"
-												cssClass="form-control chosen-select" cssErrorClass="form-control error" >
+										<form:select path="cargoSuperiorDireto.id" id="cargoSuperiorDireto"
+												cssClass="form-control" cssErrorClass="form-control error" >
 											<form:option value="0" label="Selecione uma opção" />
 											<c:forEach items="${lstCargo}" var="cbo">
 												<form:option value="${cargo.id}" label="${cargo.nomeCargo}" />
@@ -71,30 +93,14 @@
 										</form:select>
 									</div>
 									<form:errors element="label" cssClass="error"
-											path="cargoSuperiorDireto" />
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Empresa</label> 
-									<form:select path="empresa"
-											cssClass="form-control chosen-select" cssErrorClass="form-control error" >
-										<form:option value="0" label="Selecione uma opção" />
-										<c:forEach items="${lstEmpresa}" var="empresa">
-											<form:option value="${empresa}" label="${empresa.razaoSocial}" />
-										</c:forEach>
-									</form:select>
-									<form:errors element="label" cssClass="error"
-											path="empresa" />
+											path="cargoSuperiorDireto.id" />
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Função</label> 
 									<div class="input-group">
-										<form:select path="funcao" cssClass="form-control" 
+										<form:select path="funcao.id" cssClass="form-control" 
 												cssErrorClass="form-control error" >
 											<form:option value="0" label="Selecione uma opção" />
 											<c:forEach items="${lstFuncao}" var="funcao">
@@ -130,9 +136,31 @@
 									<div class="input-group">
 										<form:select path="habilidades" multiple="true"
 												cssClass="form-control chosen-select" cssErrorClass="form-control error" >
-											<c:forEach items="${lstHabilidade}" var="habilidade">
-												<form:option value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
-											</c:forEach>
+											<c:choose>
+												<c:when test="${cargo.id == null}">
+													<c:forEach items="${lstHabilidade}" var="habilidade">
+														<form:option value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
+													</c:forEach>
+												</c:when>
+												<c:otherwise>
+													<c:forEach items="${lstHabilidade}" var="habilidade">
+														<c:set var="isSelected" value="${false}" />
+														<c:forEach items="${cargo.habilidades}" var="cargoHabilidade">
+															<c:if test="${habilidade.id == cargoHabilidade.id}">
+																<c:set var="isSelected" value="${true}" />
+															</c:if>
+														</c:forEach>
+														<c:choose>
+															<c:when test="${isSelected}">
+																<form:option selected="selected" value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
+															</c:when>
+															<c:otherwise>
+																<form:option value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
 										</form:select>
 									</div>
 									<form:errors element="label" cssClass="error"
@@ -141,7 +169,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Educacao</label> 
+									<label>Educação</label> 
 									<div class="input-group">
 										<form:select path="educacao" cssClass="form-control" 
 												cssErrorClass="form-control error" >
@@ -208,7 +236,37 @@
 <script src="${resourcePath}js/plugins/iCheck/icheck.min.js"></script>
 
 <script>
+	document.getElementById("cadastro").setAttribute("class", "active");
+	document.getElementById("cadastroCargo").setAttribute("class", "active");
+	document.getElementById("formCargo").setAttribute("class", "active");
 
+	$('#empresa').on('change',function(){
+		var data = {}
+		data["id"] = $("#empresa").val();
+		$('#cargoSuperiorDireto').
+		html('<option value="0">Selecione uma opção</option>');
+		$.ajax({
+			type: "POST",
+			url : "/WebEvaluationInit/ajax/searchingCargos.html",
+			data : JSON.stringify(data),
+			contentType: "application/json",
+	        dataType: "json",
+			success : function(data) {
+				console.log("SUCCESS: ", data);
+				$.each(data, function(i, item) {
+					$('#cargoSuperiorDireto').
+						append('<option value="'+item.id+'">'+item.nomeCargo+'</option>');
+				});
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+			},
+			done : function(e) {
+				console.log("DONE");
+			}
+		});
+	});
+	
 	$(document).ready(function() {
 		var msgSucesso = "Os dados do cargo foram cadastrados!";
 		var msgErro = "Houve um erro ao cadastrar os dados do cargo!";
@@ -256,7 +314,4 @@
          });
      });
 	 
- 	document.getElementById("cadastro").setAttribute("class", "active");
-	document.getElementById("cadastroCargo").setAttribute("class", "active");
-	document.getElementById("formCargo").setAttribute("class", "active");
 </script>

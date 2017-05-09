@@ -39,7 +39,7 @@
 							</span>
 							</a>
 							<ul class="dropdown-menu animated fadeInRight m-t-xs">
-								<li><a href="login.html">Logout</a></li>
+								<li><a href="${pageContext.request.contextPath}/login/login.html">Logout</a></li>
 							</ul>
 						</div>
 						<div class="logo-element">WE</div>
@@ -75,10 +75,10 @@
 	                        </li>
 						</ul>
 					</li>
-					<li><a href="#"><i class="fa fa-bar-chart-o"></i> <span
-							class="nav-label">Relatórios</span><span class="fa arrow"></span></a>
+					<li id="relatorio"><a href="#"><i class="fa fa-bar-chart-o"></i>
+						<span class="nav-label">Relatórios</span><span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level collapse">
-							<li><a href="#">teste</a></li>
+							<li id="formRelatorio"><a href="${pageContext.request.contextPath}/relatorio/form.html">Relatório</a></li>
 							<!--<li><a href="graph_flot.html">Flot Charts</a></li>
 							<li><a href="graph_morris.html">Morris.js Charts</a></li>
 							<li><a href="graph_rickshaw.html">Rickshaw Charts</a></li>
@@ -101,8 +101,9 @@
 						<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
 							href="#"><i class="fa fa-bars"></i> </a>
 					</div>
+					<i class="title">WEB EVALUATION</i>
 					<ul class="nav navbar-top-links navbar-right">
-						<li><a href="login.html"> <i class="fa fa-sign-out"></i>
+						<li><a href="${pageContext.request.contextPath}/login/login.html"> <i class="fa fa-sign-out"></i>
 								Log out
 						</a></li>
 					</ul>

@@ -48,9 +48,9 @@
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group">
-									<label>Data Admissão</label> <form:input path="admissoes" data-mask="99/99/9999"
+									<label>Data Admissão</label> <form:input path="admissoes[0].dataAdmissao" data-mask="99/99/9999"
 											cssClass="form-control" cssErrorClass="form-control error" />
-									<form:errors element="label" cssClass="error" path="admissoes" />
+									<form:errors element="label" cssClass="error" path="admissoes[0].dataAdmissao" />
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -75,7 +75,7 @@
 								<div class="form-group">
 									<label>Empresa</label>
 										<div class="input-group">
-											<form:select path="admissoes[0].empresa" id="empresa"
+											<form:select path="admissoes[0].empresa.id" id="empresa"
 													cssClass="form-control chosen-select" cssErrorClass="form-control error" >
 												<form:option value="0" label="Selecione uma opção" />
 												<c:forEach items="${lstEmpresa}" var="empresa">
@@ -90,15 +90,15 @@
 								<div class="form-group">
 									<label>Cargo</label>
 										<div class="input-group">
-											<form:select path="cargo"
-													cssClass="form-control chosen-select" cssErrorClass="form-control error" >
-												<form:option value="0" label="Selecione uma opção" />
+											<form:select path="cargo.id" id="cargo"
+													cssClass="form-control" cssErrorClass="form-control error" >
+												<form:option value="" label="Selecione uma opção" />
 												<c:forEach items="${lstCargo}" var="cargo">
 													<form:option value="${cargo.id}" label="${cargo.nomeCargo}" />
 												</c:forEach>
 											</form:select>
 										</div>
-									<form:errors element="label" cssClass="error" path="cargo" />
+									<form:errors element="label" cssClass="error" path="cargo.id" />
 								</div>
 							</div>
 						</div>
@@ -107,14 +107,14 @@
 								<div class="form-group">
 									<label>Superior Imediato</label>
 									<div class="input-group">
-										<form:select path="colaboradorSuperiorImediato"
-												cssClass="form-control chosen-select" cssErrorClass="form-control error" >
-											<form:option value="0" label="Selecione uma opção" />
+										<form:select path="colaboradorSuperiorImediato.id" id="colaboradorSuperiorImediato"
+												cssClass="form-control" cssErrorClass="form-control error" >
+											<form:option value="" label="Selecione uma opção" />
 											<c:forEach items="${lstColaborador}" var="colaboradorSuperiorImediato">
 												<form:option value="${colaboradorSuperiorImediato.id}" label="${colaboradorSuperiorImediato.nomeCargo}" />
 											</c:forEach>
 										</form:select>
-										<form:errors element="label" cssClass="error" path="colaboradorSuperiorImediato" />
+										<form:errors element="label" cssClass="error" path="colaboradorSuperiorImediato.id" />
 									</div>
 								</div>
 							</div>
@@ -140,7 +140,7 @@
 									<label>Estado Civil</label> 
 									<form:select path="estadoCivil"
 											cssClass="form-control" cssErrorClass="form-control error" >
-										<form:option value="0" label="Selecione uma opção" />
+										<form:option value="" label="Selecione uma opção" />
 										<c:forEach items="${estadoCivil}" var="estado">
 											<form:option value="${estado}" label="${estado.descricao}" />
 										</c:forEach>
@@ -155,7 +155,7 @@
 									<label>Gênero</label> 
 									<form:select path="genero"
 											cssClass="form-control" cssErrorClass="form-control error" >
-										<form:option value="0" label="Selecione uma opção" />
+										<form:option value="" label="Selecione uma opção" />
 										<c:forEach items="${generos}" var="genero">
 											<form:option value="${genero}" label="${genero.descricao}" />
 										</c:forEach>
@@ -172,11 +172,11 @@
 							</div>
 						</div>
 					</div>					
-						<div class="row" style="margin: 0;">
-							<div class="ibox-title">
-									<h5>Endereço</h5>
-							</div>
+					<div class="row" style="margin: 0;">
+						<div class="ibox-title">
+								<h5>Endereço</h5>
 						</div>
+					</div>
 					<div class="ibox-content">
 						<div class="row">
 							<div class="col-md-3">
@@ -322,9 +322,13 @@
 	document.getElementById("cadastro").setAttribute("class", "active");
 	document.getElementById("formColaborador").setAttribute("class", "active");
 	
-	$('#empresa').change(function(){
+	$('#empresa').on('change',function(){
 		var data = {}
 		data["id"] = $("#empresa").val();
+		$('#cargo').
+		html('<option value="">Selecione uma opção</option>');
+		$('#colaboradorSuperiorImediato').
+		html('<option value="">Selecione uma opção</option>');
 		$.ajax({
 			type: "POST",
 			url : "/WebEvaluationInit/ajax/searchingCargos.html",
@@ -333,11 +337,40 @@
             dataType: "json",
 			success : function(data) {
 				console.log("SUCCESS: ", data);
-				display(data);
+				$.each(data, function(i, item) {
+					$('#cargo').
+						append('<option value="'+item.id+'">'+item.nomeCargo+'</option>');
+				});
 			},
 			error : function(e) {
 				console.log("ERROR: ", e);
-				display(e);
+			},
+			done : function(e) {
+				console.log("DONE");
+			}
+		});
+	});
+	
+	$('#cargo').on('change',function(){
+		var data = {}
+		data["id"] = $("#cargo").val();
+		$('#colaboradorSuperiorImediato').
+		html('<option value="">Selecione uma opção</option>');
+		$.ajax({
+			type: "POST",
+			url : "/WebEvaluationInit/ajax/searchingColaboradores.html",
+			data : JSON.stringify(data),
+			contentType: "application/json",
+            dataType: "json",
+			success : function(data) {
+				console.log("SUCCESS: ", data);
+				$.each(data, function(i, item) {
+					$('#colaboradorSuperiorImediato').
+						append('<option value="'+item.id+'">'+item.nome+'</option>');
+				});
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
 			},
 			done : function(e) {
 				console.log("DONE");
