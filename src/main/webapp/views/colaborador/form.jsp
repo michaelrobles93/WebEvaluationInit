@@ -171,7 +171,69 @@
 								</div>
 							</div>
 						</div>
-					</div>					
+					</div>
+					<div class="row" style="margin: 0;">
+							<div class="ibox-title">
+									<h5>Competências</h5>
+							</div>
+						</div>
+					<div class="ibox-content">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Habilidades</label> 
+									<div class="input-group">
+										<form:select path="habilidades" multiple="true"
+												cssClass="form-control chosen-select" cssErrorClass="form-control error" >
+											<c:choose>
+												<c:when test="${cargo.id == null}">
+													<c:forEach items="${lstHabilidade}" var="habilidade">
+														<form:option value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
+													</c:forEach>
+												</c:when>
+												<c:otherwise>
+													<c:forEach items="${lstHabilidade}" var="habilidade">
+														<c:set var="isSelected" value="${false}" />
+														<c:forEach items="${cargo.habilidades}" var="cargoHabilidade">
+															<c:if test="${habilidade.id == cargoHabilidade.id}">
+																<c:set var="isSelected" value="${true}" />
+															</c:if>
+														</c:forEach>
+														<c:choose>
+															<c:when test="${isSelected}">
+																<form:option selected="selected" value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
+															</c:when>
+															<c:otherwise>
+																<form:option value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
+										</form:select>
+									</div>
+									<form:errors element="label" cssClass="error"
+											path="habilidades" />
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Educação</label> 
+									<div class="input-group">
+										<form:select path="educacao" cssClass="form-control" 
+												cssErrorClass="form-control error" >
+											<form:option value="0" label="Selecione uma opção" />
+											<c:forEach items="${lstEducacao}" var="educacao">
+												<form:option value="${educacao}" label="${educacao.descricao}" />
+											</c:forEach>
+										</form:select>
+									</div>
+									<form:errors element="label" cssClass="error"
+											path="educacao" />
+								</div>
+							</div>
+						</div>
+					</div>				
 					<div class="row" style="margin: 0;">
 						<div class="ibox-title">
 								<h5>Endereço</h5>

@@ -44,7 +44,7 @@
 
                 <a href="#"><small>Esqueceu sua senha?</small></a>
             </form>
-            <p class="m-t"> <small><strong>Copyright</strong> WebEvaluation &copy; 2016</small> </p>
+            <p class="m-t"> <small><strong>Copyright</strong> WebEvaluation &copy; 2017</small> </p>
         </div>
     </div>
 

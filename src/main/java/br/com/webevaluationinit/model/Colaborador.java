@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -94,6 +96,13 @@ public class Colaborador {
 	@NotEmpty
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="colaborador")
 	private List<Admissao> admissoes;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="colaborador_habilidade")
+	private List<Habilidade> habilidades;
+	
+	@Enumerated
+	private Educacao educacao;
 	
 	public Long getId() {
 		return id;
@@ -184,6 +193,18 @@ public class Colaborador {
 	}
 	public void setAdmissoes(List<Admissao> admissoes) {
 		this.admissoes = admissoes;
+	}
+	public List<Habilidade> getHabilidades() {
+		return habilidades;
+	}
+	public void setHabilidades(List<Habilidade> habilidades) {
+		this.habilidades = habilidades;
+	}
+	public Educacao getEducacao() {
+		return educacao;
+	}
+	public void setEducacao(Educacao educacao) {
+		this.educacao = educacao;
 	}
 	@Override
 	public int hashCode() {

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.webevaluationinit.model.Habilidade;
 import br.com.webevaluationinit.model.Role;
 import br.com.webevaluationinit.model.Usuario;
 import br.com.webevaluationinit.service.RoleService;
@@ -64,7 +63,7 @@ public class UsuarioController {
 	@RequestMapping(value = "/form", method = RequestMethod.GET)
 	public ModelAndView form(Usuario usuario, Model model) {
 		List<Role> lstRole = roleService.procurarTudo();
-		
+		usuario.setSenha(null);
 		model.addAttribute("usuario", usuario);
 		model.addAttribute("lstRole", lstRole);
 		model.addAttribute("sucesso", this.sucesso);
@@ -80,6 +79,9 @@ public class UsuarioController {
 			return form(usuario, model);
 		}
 		if (usuario.getId() != null) {
+			Usuario usuarioSenha = usuarioService.procurarPorId(usuario.getId());
+			usuario.setSenha(usuarioSenha.getSenha());
+			
 			usuarioService.atualizar(usuario);
 			this.sucesso = 1;
 			model.addAttribute("sucesso", this.sucesso);

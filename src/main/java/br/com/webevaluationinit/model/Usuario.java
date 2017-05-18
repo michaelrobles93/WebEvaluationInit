@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -38,6 +37,11 @@ public class Usuario {
 	@NotEmpty
 	@Column(nullable=false)
 	private String usuario;
+	
+	//@NotNull(message="{colaborador.sobrenome.nulo)")
+	//@NotEmpty
+	@Column(nullable=false)
+	private String senha;
 	
 	@NotNull(message="{colaborador.email.nulo)")
 	@NotEmpty
@@ -83,6 +87,12 @@ public class Usuario {
 	}
 	public void setRole(List<Role> role) {
 		this.role = role;
+	}
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 	@Override
 	public int hashCode() {

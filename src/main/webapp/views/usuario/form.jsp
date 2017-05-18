@@ -71,6 +71,15 @@
 									<form:errors element="label" cssClass="error" path="usuario" />
 								</div>
 							</div>
+							<c:if test="${usuario.id == null }">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Senha</label> <form:password path="senha" cssClass="form-control"
+											cssErrorClass="form-control error" />
+									<form:errors element="label" cssClass="error" path="senha" />
+								</div>
+							</div>
+							</c:if>
 						</div>
 						<div class="row" style="margin: 0;">
 							<div class="ibox-title">

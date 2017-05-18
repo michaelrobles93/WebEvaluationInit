@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,14 +24,17 @@ import br.com.webevaluationinit.model.Admissao;
 import br.com.webevaluationinit.model.AdmissaoId;
 import br.com.webevaluationinit.model.Cargo;
 import br.com.webevaluationinit.model.Colaborador;
+import br.com.webevaluationinit.model.Educacao;
 import br.com.webevaluationinit.model.EstadoCivil;
 import br.com.webevaluationinit.model.Genero;
+import br.com.webevaluationinit.model.Habilidade;
 import br.com.webevaluationinit.model.Telefone;
 import br.com.webevaluationinit.model.TipoTelefone;
 import br.com.webevaluationinit.service.AdmissaoService;
 import br.com.webevaluationinit.service.CargoService;
 import br.com.webevaluationinit.service.ColaboradorService;
 import br.com.webevaluationinit.service.EmpresaService;
+import br.com.webevaluationinit.service.HabilidadeService;
 import br.com.webevaluationinit.util.DatePropertyEditor;
 
 @Controller
@@ -41,6 +45,7 @@ public class ColaboradorController {
 	private EmpresaService empresaService;
 	private AdmissaoService admissaoService;
 	private CargoService cargoService;
+	private HabilidadeService habilidadeService;
 	
 	private int sucesso = -1;
 	
@@ -49,29 +54,54 @@ public class ColaboradorController {
 		//binder.setValidator(userValidator);
 		//binder.registerCustomEditor(Profile.class, new ProfilePropertyEditor(profileDao));
 		binder.registerCustomEditor(Date.class, new DatePropertyEditor(new SimpleDateFormat("dd/MM/yyyy")));
+		binder.registerCustomEditor(List.class, "habilidades", new CustomCollectionEditor(List.class) {
+			protected Object convertElement(Object element) {
+				Long id = null;
+				if (element instanceof Habilidade) {
+					return element;
+				} else if (element instanceof String && !((String) element).equals("")) {
+					// From the JSP 'element' will be a String
+					try {
+						id = Long.parseLong((String) element);
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+				} else if (element instanceof Long) {
+					// From the database 'element' will be a Long
+					id = (Long) element;
+				}
+
+				return id != null ? habilidadeService.procurarPorId(id) : null;
+			}
+		});
 	}
 
 	@Autowired
 	public ColaboradorController(ColaboradorService colaboradorService, 
 			EmpresaService empresaService, 
 			AdmissaoService admissaoService,
-			CargoService cargoservice) {
+			CargoService cargoservice,
+			HabilidadeService habilidadeService) {
 		this.colaboradorService = colaboradorService;
 		this.empresaService = empresaService;
 		this.admissaoService = admissaoService;
 		this.cargoService = cargoservice;
+		this.habilidadeService = habilidadeService;
 	}
 
 	@RequestMapping(value = "/form", method = RequestMethod.GET)
 	public ModelAndView form(Colaborador colaborador, Model model) {
 		
 		List<Cargo> lstCargo = new ArrayList<Cargo>();
+		List<Habilidade> lstHabilidade = habilidadeService.procurarTudo();
 		
 		model.addAttribute("estadoCivil", EstadoCivil.values());
 		model.addAttribute("generos", Genero.values());
 		
 		model.addAttribute("colaborador", colaborador);
 		model.addAttribute("lstEmpresa", empresaService.procurarTudo());
+		model.addAttribute("lstHabilidade", lstHabilidade);
+		model.addAttribute("lstEducacao", Educacao.values());
 		
 		if (colaborador.getAdmissoes() != null){
 			for (Admissao admissao : colaborador.getAdmissoes()){

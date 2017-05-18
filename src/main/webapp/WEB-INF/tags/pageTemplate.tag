@@ -130,7 +130,7 @@
 			</div>
 			<div class="footer">
 				<div>
-					<strong>Copyright</strong> WebEvaluation &copy; 2016
+					<strong>Copyright</strong> WebEvaluation &copy; 2017
 				</div>
 			</div>
 		</div>
