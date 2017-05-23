@@ -49,4 +49,8 @@ public class ColaboradorService {
 	public List<Colaborador> procurarPorCargo(Long id){
 		return colaboradorDAO.procurarPorCargo(id);
 	}
+	
+	public List<Colaborador> procurarPorEmpresa(Long id){
+		return colaboradorDAO.procurarPorEmpresa(id);
+	}
 }

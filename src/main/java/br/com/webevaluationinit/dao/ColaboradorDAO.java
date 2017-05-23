@@ -9,6 +9,8 @@ public interface ColaboradorDAO extends GenericDAO<Colaborador, Long>{
 	
 	List<Colaborador> procurarPorCargo(Long id);
 	
+	List<Colaborador> procurarPorEmpresa(Long id);
+	
 	List<Colaborador> procurarRelatorio(Relatorio relatorio);
 
 }

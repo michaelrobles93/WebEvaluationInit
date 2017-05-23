@@ -6,6 +6,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.webevaluationinit.model.Cargo;
 import br.com.webevaluationinit.model.Colaborador;
 import br.com.webevaluationinit.model.Educacao;
 import br.com.webevaluationinit.model.Funcao;
@@ -20,6 +21,13 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 		TypedQuery<Colaborador> query = em
 				.createQuery("SELECT e FROM " + entityClass.getName() + " e WHERE id_cargo = :idCargo", entityClass)
 				.setParameter("idCargo", idCargo);
+		return (List<Colaborador>) query.getResultList();
+	}
+	
+	public List<Colaborador> procurarPorEmpresa(Long idEmpresa) {
+		TypedQuery<Colaborador> query = em
+				.createQuery("SELECT e FROM " + entityClass.getName() + " e, " + Cargo.class.getName() + " car WHERE id_cargo = car.id AND id_empresa = :idEmpresa", entityClass)
+				.setParameter("idEmpresa", idEmpresa);
 		return (List<Colaborador>) query.getResultList();
 	}
 

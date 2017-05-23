@@ -186,7 +186,7 @@
 										<form:select path="habilidades" multiple="true"
 												cssClass="form-control chosen-select" cssErrorClass="form-control error" >
 											<c:choose>
-												<c:when test="${cargo.id == null}">
+												<c:when test="${colaborador.id == null}">
 													<c:forEach items="${lstHabilidade}" var="habilidade">
 														<form:option value="${habilidade.id}" label="${habilidade.nomeHabilidade}" />
 													</c:forEach>
@@ -194,8 +194,8 @@
 												<c:otherwise>
 													<c:forEach items="${lstHabilidade}" var="habilidade">
 														<c:set var="isSelected" value="${false}" />
-														<c:forEach items="${cargo.habilidades}" var="cargoHabilidade">
-															<c:if test="${habilidade.id == cargoHabilidade.id}">
+														<c:forEach items="${colaborador.habilidades}" var="colaboradorHabilidade">
+															<c:if test="${habilidade.id == colaboradorHabilidade.id}">
 																<c:set var="isSelected" value="${true}" />
 															</c:if>
 														</c:forEach>
@@ -415,7 +415,7 @@
 	
 	$('#cargo').on('change',function(){
 		var data = {}
-		data["id"] = $("#cargo").val();
+		data["id"] = $("#empresa").val();
 		$('#colaboradorSuperiorImediato').
 		html('<option value="">Selecione uma opção</option>');
 		$.ajax({

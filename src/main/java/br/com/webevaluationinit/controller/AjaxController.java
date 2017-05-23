@@ -45,11 +45,11 @@ public class AjaxController {
 	@RequestMapping(value = "/searchingColaboradores",
 			method = RequestMethod.POST,
 			headers="Accept=*/*")
-	public @ResponseBody List<Colaborador> getSearchResultAjax(@RequestBody Cargo cargo){
+	public @ResponseBody List<Colaborador> getSearchResultAjaxColaborador(@RequestBody Empresa empresa){
 		
 		List<Colaborador> colaborador = new ArrayList<Colaborador>();
 		
-		colaborador = colaboradorService.procurarPorCargo(cargo.getId());
+		colaborador = colaboradorService.procurarPorEmpresa(empresa.getId());
 		
 		return colaborador;
 	}
