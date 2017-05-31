@@ -36,13 +36,17 @@
 						<thead>
 							<tr>
 								<th>Nome</th>
+								<th>Cargo</th>
+								<th>Empresa</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${lstColaborador}" var="colaborador">
 								<tr >
-									<td>${colaborador.nome}</td>
+									<td>${colaborador.nome} ${colaborador.sobrenome}</td>
+									<td>${colaborador.cargo.nomeCargo}</td>
+									<td>${colaborador.cargo.empresa.nomeFantasia}</td>
 									<td>
 										<a href="./view.html?id=${colaborador.id}" class="edit"></a>
 									</td>

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="t"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:url value="/resources/" var="resourcePath" />
 
 <!-- Data Tables -->
@@ -38,8 +39,8 @@
 								<th>Nome</th>
 								<th>Empresa</th>
 								<th>E-mail</th>
+								<th>Cargo</th>
 								<th>Data de Nascimento</th>
-								<th>CPF</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -49,8 +50,8 @@
 									<td>${colaborador.nome} ${colaborador.sobrenome}</td>
 									<td>${colaborador.cargo.empresa.nomeFantasia}</td>
 									<td>${colaborador.email}</td>
-									<td>${colaborador.dataNascimento}</td>
-									<td>${colaborador.cpf}</td>
+									<td>${colaborador.cargo.nomeCargo}</td>
+									<td><fmt:formatDate pattern="dd/MM/yyyy" value="${colaborador.dataNascimento}" /></td>
 									<td>
 										<a href="./edit.html?id=${colaborador.id}" class="edit"></a>
 										<a href="#?id=${colaborador.id}" class="delete"></a>

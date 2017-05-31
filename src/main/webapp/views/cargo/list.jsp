@@ -19,7 +19,7 @@
 <link href="${resourcePath}css/plugins/toastr/toastr.min.css"
 	rel="stylesheet">
 
-<t:pageTemplate title="Colaboradores Cadastradas - Web Evaluation">
+<t:pageTemplate title="Cargos Cadastrados - Web Evaluation">
 
 	<div class="row">
 		<div class="col-lg-12">

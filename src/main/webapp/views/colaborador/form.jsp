@@ -428,7 +428,7 @@
 				console.log("SUCCESS: ", data);
 				$.each(data, function(i, item) {
 					$('#colaboradorSuperiorImediato').
-						append('<option value="'+item.id+'">'+item.nome+'</option>');
+						append('<option value="'+item.id+'">'+item.nome+' '+item.sobrenome+'</option>');
 				});
 			},
 			error : function(e) {

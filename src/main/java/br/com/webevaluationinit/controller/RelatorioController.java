@@ -218,20 +218,11 @@ public class RelatorioController {
 		Long longId = Long.parseLong(id);
 		if (longId != null) {
 			Colaborador colaborador = colaboradorService.procurarPorId(longId);
-			List<Cargo> lstCargo = new ArrayList<Cargo>();
-			
-			model.addAttribute("estadoCivil", EstadoCivil.values());
-			model.addAttribute("generos", Genero.values());
+			List<Habilidade> lstHabilidade = habilidadeService.procurarTudo();
 			
 			model.addAttribute("colaborador", colaborador);
-			model.addAttribute("lstEmpresa", empresaService.procurarTudo());
-			
-			if (colaborador.getAdmissoes() != null){
-				for (Admissao admissao : colaborador.getAdmissoes()){
-					lstCargo = cargoService.procurarPorEmpresa(admissao.getEmpresa().getId());
-					model.addAttribute("lstCargo", lstCargo);
-				}
-			}
+			model.addAttribute("lstHabilidade", lstHabilidade);
+
 			return new ModelAndView("/relatorio/view");
 		}
 		return new ModelAndView("/relatorio/list");

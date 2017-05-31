@@ -69,7 +69,7 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 			if (countCriteria > 0) {
 				criteria = criteria + " AND cha.habilidades_id = ALL (SELECT habilidades_id FROM " + cargoHabilidadeTable + " WHERE cha.habilidades_id IN (" + idsHabilidade + "))";
 			}else{
-				criteria = " AND cha.habilidades_id = ALL (SELECT habilidades_id FROM " + cargoHabilidadeTable + " WHERE cha.habilidades_id IN (" + idsHabilidade + "))";
+				criteria = " cha.habilidades_id = ALL (SELECT habilidades_id FROM " + cargoHabilidadeTable + " WHERE cha.habilidades_id IN (" + idsHabilidade + "))";
 			}
 			countCriteria++;
 		}

@@ -61,7 +61,6 @@
 			</div>
 		</div>
 	</div>
-	<button type="button" class="btn btn-white" id="showsimple">Show simple options</button>
 	<style>
 body.DTTT_Print {
 	background: #fff;
