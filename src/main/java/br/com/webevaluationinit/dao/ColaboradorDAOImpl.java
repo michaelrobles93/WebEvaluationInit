@@ -50,14 +50,13 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 		
 		if (relatorio.getLstHabilidade() != null) {
 			String cargoTable = "Cargo";
-			String cargoHabilidadeTable = "Cargo_Habilidade";
+			String colaboradorHabilidadeTable = "Colaborador_Habilidade";
 			String colaboradorTable = "Colaborador";
 			String idsHabilidade = "";
 			if (relatorio.getEmpresa().getId() == 0) {
-				table = table + colaboradorTable + " e JOIN " + cargoTable + " car ON (e.id_cargo = car.id) JOIN "
-						+ cargoHabilidadeTable + " cha ON (car.id = cha.cargo_id) ";
+				table = table + colaboradorTable + " e JOIN " + colaboradorHabilidadeTable + " cha ON (e.id = cha.colaborador_id) ";
 			} else {
-				table = table + " JOIN " + cargoHabilidadeTable + " cha ON (car.id = cha.cargo_id) ";
+				table = table + " JOIN " + colaboradorHabilidadeTable + " cha ON (e.id = cha.colaborador_id) ";
 			}
 			for (Habilidade habilidade : relatorio.getLstHabilidade()) {
 				if (idsHabilidade.equals("")) {
@@ -67,19 +66,20 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 				}
 			}
 			if (countCriteria > 0) {
-				criteria = criteria + " AND cha.habilidades_id = ALL (SELECT habilidades_id FROM " + cargoHabilidadeTable + " WHERE cha.habilidades_id IN (" + idsHabilidade + "))";
+				//criteria = criteria + " AND cha.habilidades_id = ALL (SELECT habilidades_id FROM " + colaboradorHabilidadeTable + " WHERE cha.habilidades_id IN (" + idsHabilidade + "))";
+				criteria = criteria + " AND cha.habilidades_id IN (" + idsHabilidade + ")";
 			}else{
-				criteria = " cha.habilidades_id = ALL (SELECT habilidades_id FROM " + cargoHabilidadeTable + " WHERE cha.habilidades_id IN (" + idsHabilidade + "))";
+				//criteria = " cha.habilidades_id = ALL (SELECT habilidades_id FROM " + colaboradorHabilidadeTable + " WHERE cha.habilidades_id IN (" + idsHabilidade + "))";
+				criteria = " cha.habilidades_id IN (" + idsHabilidade + ")";
 			}
 			countCriteria++;
 		}
 		
 		if (relatorio.getLstEducacao() != null) {
-			String cargoTable = "Cargo";
 			String colaboradorTable = "Colaborador";
 			String idsEducacao = "";
 			if (relatorio.getEmpresa().getId() == 0 && relatorio.getLstHabilidade() == null) {
-				table = table + colaboradorTable + " e JOIN " + cargoTable + " car ON (e.id_cargo = car.id) ";
+				table = table + colaboradorTable + " e";
 			}
 			for (Educacao educacao : relatorio.getLstEducacao()) {
 				if (idsEducacao.equals("")) {
@@ -89,9 +89,9 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 				}
 			}
 			if (countCriteria > 0) {
-				criteria = criteria + " AND car.educacao IN (" + idsEducacao + ")";
+				criteria = criteria + " AND e.educacao IN (" + idsEducacao + ")";
 			}else{
-				criteria = "car.educacao IN (" + idsEducacao + ")";
+				criteria = "e.educacao IN (" + idsEducacao + ")";
 			}
 		}
 		
@@ -101,6 +101,10 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 			String idsFuncao = "";
 			if (relatorio.getEmpresa().getId() == 0 && relatorio.getLstHabilidade() == null && relatorio.getLstEducacao() == null) {
 				table = table + colaboradorTable + " e JOIN " + cargoTable + " car ON (e.id_cargo = car.id) ";
+			}else{
+				if(relatorio.getEmpresa().getId() == 0){
+					table = table + " JOIN " + cargoTable + " car ON (e.id_cargo = car.id) ";
+				}
 			}
 			for (Funcao funcao: relatorio.getLstFuncao()) {
 				if (idsFuncao.equals("")) {
@@ -137,8 +141,11 @@ public class ColaboradorDAOImpl extends JPAGenericDAO<Colaborador, Long> impleme
 			System.out.println("SELECT DISTINCT(e) FROM " + entityClass.getName() + " e");
 			query = em.createQuery("SELECT DISTINCT(e) FROM " + entityClass.getName() + " e", entityClass);
 		} else {
-			System.out.println("SELECT DISTINCT(e.id) AS \"e.id\", e.* FROM " + table + " WHERE " + criteria);
-			query = (TypedQuery<Colaborador>) em.createNativeQuery("SELECT DISTINCT(e.id) AS \"e.id\", e.* FROM " + table + " WHERE " + criteria,
+			String sql = "SELECT COUNT(e.id) AS ctps, e.id, e.cpf, e.nome, e.sobrenome, e.id_cargo, e.id_colaborador_superior_imediato, " +
+							"e.data_nascimento, e.email, e.estado_civil, e.educacao, e.rg, e.genero " +
+							"FROM " + table + " WHERE " + criteria + " GROUP BY e.id";
+			System.out.println(sql);
+			query = (TypedQuery<Colaborador>) em.createNativeQuery(sql,
 					entityClass);
 		}
 		return (List<Colaborador>) query.getResultList();

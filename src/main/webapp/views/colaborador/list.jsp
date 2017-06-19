@@ -114,7 +114,7 @@ button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
 			"dom" : 'T<"clear">lfrtip'
 		});
 
-		var msgSucesso = "Os dados da empresa foram atualizados!";
+		var msgSucesso = "Os dados do colaborador foram atualizados!";
 		var msgErro = "Houve um erro ao atualizar os dados da empresa!";
 
 		toastr.options = {

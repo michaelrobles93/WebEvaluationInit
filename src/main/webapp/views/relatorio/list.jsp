@@ -38,6 +38,7 @@
 								<th>Nome</th>
 								<th>Cargo</th>
 								<th>Empresa</th>
+								<th>Qtde Habilidades</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -47,6 +48,7 @@
 									<td>${colaborador.nome} ${colaborador.sobrenome}</td>
 									<td>${colaborador.cargo.nomeCargo}</td>
 									<td>${colaborador.cargo.empresa.nomeFantasia}</td>
+									<td>${colaborador.ctps}</td>
 									<td>
 										<a href="./view.html?id=${colaborador.id}" class="edit"></a>
 									</td>

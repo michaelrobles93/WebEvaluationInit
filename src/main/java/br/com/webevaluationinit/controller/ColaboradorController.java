@@ -102,6 +102,9 @@ public class ColaboradorController {
 		model.addAttribute("lstEmpresa", empresaService.procurarTudo());
 		model.addAttribute("lstHabilidade", lstHabilidade);
 		model.addAttribute("lstEducacao", Educacao.values());
+		if (colaborador.getCargo() != null){
+			model.addAttribute("lstColaborador", colaboradorService.procurarPorEmpresa(colaborador.getCargo().getEmpresa().getId()));
+		}
 		
 		if (colaborador.getAdmissoes() != null){
 			for (Admissao admissao : colaborador.getAdmissoes()){

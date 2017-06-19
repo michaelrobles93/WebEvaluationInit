@@ -232,6 +232,9 @@ public class RelatorioController {
 	public ModelAndView list(@Valid Relatorio relatorio, BindingResult bindingResult, Model model) {
 		List<Colaborador> lstColaborador = new ArrayList<Colaborador>();
 		lstColaborador = colaboradorService.procurarRelatorio(relatorio);
+		for (Colaborador colaborador : lstColaborador) {
+			colaborador.setCtps(colaborador.getCtps() + "/" + relatorio.getLstHabilidade().size());
+		}
 		model.addAttribute("lstColaborador", lstColaborador);
 		return new ModelAndView("/relatorio/list");
 	}

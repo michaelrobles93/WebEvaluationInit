@@ -111,7 +111,7 @@
 												cssClass="form-control" cssErrorClass="form-control error" >
 											<form:option value="" label="Selecione uma opção" />
 											<c:forEach items="${lstColaborador}" var="colaboradorSuperiorImediato">
-												<form:option value="${colaboradorSuperiorImediato.id}" label="${colaboradorSuperiorImediato.nomeCargo}" />
+												<form:option value="${colaboradorSuperiorImediato.id}" label="${colaboradorSuperiorImediato.nome}" />
 											</c:forEach>
 										</form:select>
 										<form:errors element="label" cssClass="error" path="colaboradorSuperiorImediato.id" />
