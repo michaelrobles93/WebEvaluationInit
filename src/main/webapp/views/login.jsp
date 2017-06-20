@@ -5,6 +5,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 
 <c:url value="/resources/" var="resourcePath" />
+<!-- Toastr style -->
+<link href="${resourcePath}css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <html>
 
@@ -33,12 +35,12 @@
             <h3>Bem Vindo ao sistema</h3>
             <p class="title title_login">WEB EVALUATION</p>
             <p>Login in.</p>
-            <form class="m-t" role="form" action="${pageContext.request.contextPath}">
+            <form class="m-t" role="form" action="${pageContext.request.contextPath}/login/efetuaLogin.html" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Nome de usuário" required="">
+                    <input type="text" class="form-control" placeholder="Email do usuário" name="email" required="">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Senha" required="">
+                    <input type="password" class="form-control" placeholder="Senha" name="senha" required="">
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
 
@@ -49,9 +51,39 @@
     </div>
 
     <!-- Mainly scripts -->
-    <script src="js/jquery-2.1.1.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="${resourcePath}js/jquery-2.1.1.js"></script>
+	<script src="${resourcePath}js/bootstrap.min.js"></script>
+    <!-- Toastr script -->
+	<script src="${resourcePath}js/plugins/toastr/toastr.min.js"></script>
+	
+	<!-- Mainly scripts -->
+	
+	<script>
 
+	$(document).ready(function() {
+		var msgErro = "Nenhum usuário encontrado, verifique o e-mail e senha.";
+	
+		toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "progressBar": false,
+		  "positionClass": "toast-top-full-width",
+		  "onclick": null,
+		  "showDuration": "200",
+		  "hideDuration": "1000",
+		  "timeOut": "7000",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
+		
+		if (${erro} == 0){
+			toastr.error(msgErro,'Erro');
+		}
+	});
+	</script>
 </body>
 
 </html>

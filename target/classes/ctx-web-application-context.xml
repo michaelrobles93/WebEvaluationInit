@@ -20,7 +20,11 @@
 	<context:component-scan base-package="br.com.webevaluationinit.util" />
 
 	<mvc:annotation-driven  content-negotiation-manager="contentNegotiationManager" />
-
+	
+	<mvc:interceptors>
+	  	<bean class="br.com.webevaluationinit.interceptor.AutorizadorInterceptor" />
+	</mvc:interceptors>
+	
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 	     <property name="favorPathExtension" value="false" />
 	     <property name="favorParameter" value="true" />

@@ -131,7 +131,9 @@ public class CargoController {
 	public ModelAndView edit(@RequestParam String id, Model model) {
 		Long longId = Long.parseLong(id);
 		if (longId != null) {
-			return form(cargoService.procurarPorId(longId), model);
+			Cargo cargo = cargoService.procurarPorId(longId);
+			model.addAttribute("lstCargo", cargoService.procurarPorEmpresa(cargo.getEmpresa().getId()));
+			return form(cargo, model);
 		}
 		return new ModelAndView("/cargo/list");
 	}

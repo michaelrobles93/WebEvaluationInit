@@ -49,8 +49,8 @@
 									<td>${cargo.empresa.nomeFantasia}</td>
 									<td>${cargo.status.descricao}</td>
 									<td style="text-align: center; padding-left: 0; padding-right: 0; padding-bottom: 0;">
-										<a href="./edit.html?id=${cargo.id}" class="edit"></a> <a
-										href="#?id=${cargo.id}" class="delete"></a>
+										<a href="./edit.html?id=${cargo.id}" class="edit"></a>
+										<!-- <a href="#?id=${cargo.id}" class="delete"></a> -->
 									</td>
 								</tr>
 							</c:forEach>

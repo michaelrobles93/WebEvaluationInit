@@ -51,7 +51,7 @@
 									<td>${empresa.inscricaoEstadual}</td>
 									<td>
 										<a href="./edit.html?id=${empresa.id}" class="edit"></a>
-										<a href="#?id=${empresa.id}" class="delete"></a>
+										<!-- <a href="#?id=${empresa.id}" class="delete"></a> -->
 									</td>
 								</tr>
 							</c:forEach>

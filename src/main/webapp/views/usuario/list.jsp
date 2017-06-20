@@ -49,7 +49,7 @@
 									<td>${usuario.usuario}</td>
 									<td>
 										<a href="./edit.html?id=${usuario.id}" class="edit"></a>
-										<a href="#?id=${usuario.id}" class="delete"></a>
+										<!-- <a href="#?id=${usuario.id}" class="delete"></a> -->
 									</td>
 								</tr>
 							</c:forEach>

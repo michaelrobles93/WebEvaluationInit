@@ -16,7 +16,10 @@ public class Role {
 	private Long id;
 	
 	@Column(nullable=false)
-	private String role;	
+	private String role;
+	
+	@Column
+	private String descricao;
 	
 	public Long getId() {
 		return id;
@@ -29,6 +32,12 @@ public class Role {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	
 	@Override

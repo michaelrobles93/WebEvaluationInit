@@ -33,6 +33,10 @@ public class UsuarioService {
 		return usuarioDAO.procurarPorId(id);
 	}
 	
+	public List<Usuario> procurarPorEmail(Usuario usuario){
+		return usuarioDAO.procurarPorEmail(usuario);
+	}
+	
 	public Usuario atualizar(Usuario usuario){
 		return usuarioDAO.atualizar(usuario);
 	}

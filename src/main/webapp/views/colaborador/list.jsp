@@ -54,7 +54,7 @@
 									<td><fmt:formatDate pattern="dd/MM/yyyy" value="${colaborador.dataNascimento}" /></td>
 									<td>
 										<a href="./edit.html?id=${colaborador.id}" class="edit"></a>
-										<a href="#?id=${colaborador.id}" class="delete"></a>
+										<!-- <a href="#?id=${colaborador.id}" class="delete"></a> -->
 									</td>
 								</tr>
 							</c:forEach>

@@ -45,7 +45,7 @@
 									<td>${funcao.descricao}</td>
 									<td>
 										<a href="./edit.html?id=${funcao.id}" class="edit"></a>
-										<a href="#?id=${funcao.id}" class="delete"></a>
+										<!-- <a href="#?id=${funcao.id}" class="delete"></a> -->
 									</td>
 								</tr>
 							</c:forEach>

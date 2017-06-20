@@ -87,7 +87,7 @@
 										<form:select path="cargoSuperiorDireto.id" id="cargoSuperiorDireto"
 												cssClass="form-control" cssErrorClass="form-control error" >
 											<form:option value="0" label="Selecione uma opção" />
-											<c:forEach items="${lstCargo}" var="cbo">
+											<c:forEach items="${lstCargo}" var="cargo">
 												<form:option value="${cargo.id}" label="${cargo.nomeCargo}" />
 											</c:forEach>
 										</form:select>

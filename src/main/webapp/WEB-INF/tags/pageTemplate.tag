@@ -32,14 +32,13 @@
 						<div class="dropdown profile-element">
 							<span> </span> <a data-toggle="dropdown" class="dropdown-toggle"
 								href="#"> <span class="clear"> <span
-									class="block m-t-xs"> <strong class="font-bold">Michael
-											Robles</strong>
-								</span> <span class="text-muted text-xs block">Administrador <b
+									class="block m-t-xs"> <strong class="font-bold">${usuarioLogado.nome} ${usuarioLogado.sobrenome}</strong>
+								</span> <span class="text-muted text-xs block">${roleUsuario.descricao} <b
 										class="caret"></b></span>
 							</span>
 							</a>
 							<ul class="dropdown-menu animated fadeInRight m-t-xs">
-								<li><a href="${pageContext.request.contextPath}/login/login.html">Logout</a></li>
+								<li><a href="${pageContext.request.contextPath}/login/logout.html">Logout</a></li>
 							</ul>
 						</div>
 						<div class="logo-element">WE</div>
@@ -47,6 +46,7 @@
 					<li id="home"><a href="${pageContext.request.contextPath}"><i class="fa fa-home"></i>
 						<span class="nav-label">Home</span></a>
 					</li>
+					<c:if test="${roleUsuario.role == 'ROLE_ADMIN'}">
 					<li id="cadastro">
 						<a href="#"><i class="fa fa-edit"></i><span class="nav-label">Cadastros</span><span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
@@ -61,6 +61,8 @@
 	                        </li>
 						</ul>
 					</li>
+					</c:if>
+					<c:if test="${roleUsuario.role == 'ROLE_ADMIN'}">
 					<li id="consulta"><a href="#"><i class="fa fa-edit"></i>
 						<span class="nav-label">Consultas</span><span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
@@ -75,6 +77,7 @@
 	                        </li>
 						</ul>
 					</li>
+					</c:if>
 					<li id="relatorio"><a href="#"><i class="fa fa-bar-chart-o"></i>
 						<span class="nav-label">Relatórios</span><span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level collapse">
@@ -89,6 +92,7 @@
 							<li><a href="graph_sparkline.html">Sparkline Charts</a></li> -->
 						</ul>
 					</li>
+					<c:if test="${roleUsuario.role == 'ROLE_ADMIN'}">
 					<li id="admin">
 						<a href="#"><i class="fa fa-bar-chart-o"></i><span class="nav-label">Administração</span><span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
@@ -100,6 +104,7 @@
 							</li>
 						</ul>
 					</li>
+					</c:if>
 				</ul>
 
 			</div>
@@ -115,7 +120,7 @@
 					</div>
 					<i class="title">WEB EVALUATION</i>
 					<ul class="nav navbar-top-links navbar-right">
-						<li><a href="${pageContext.request.contextPath}/login/login.html"> <i class="fa fa-sign-out"></i>
+						<li><a href="${pageContext.request.contextPath}/login/logout.html"> <i class="fa fa-sign-out"></i>
 								Log out
 						</a></li>
 					</ul>
